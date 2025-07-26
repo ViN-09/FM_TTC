@@ -1,0 +1,337 @@
+body{
+    padding: 20px;
+}
+
+h1{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page {
+    margin-top: 10px;
+    text-align: center;
+  }
+  .page button {
+    margin: 2px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .page button:disabled {
+    background-color: #b71c1c;;
+    color: white;
+    font-weight: bold;
+  }
+  
+#table-dialy {
+    width: 100%;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+  
+  #table-dialy table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #table-dialy th,
+  #table-dialy td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #table-dialy th {
+    background-color: #b71c1c;
+    color: white;
+    font-weight: bold;
+  }
+  
+  #table-dialy tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #table-dialy tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .btn-exp {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 13px;
+  }
+  
+  .button_abort {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b71c1c;;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+  }
+  .button_abort:hover {
+    background-color: #d64949;;
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    max-width: max-content;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+  }
+  label {
+    font-weight: bold;
+    
+  }
+  input[type="datetime-local"],input[type="date"], select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #b82025;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #e9ecef;
+  }
+
+  .page ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.page ul li a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #b71c1c;
+  transition: background-color 0.3s;
+}
+
+.page ul li a:hover {
+  background-color: #b71c1c;
+  color: white;
+}
+
+.page ul li.active {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #b71c1c;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffeded;;
+  transition: background-color 0.3s;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////// */
+/* @media screen and (max-width: 500px) {
+  body{
+    padding: 20px;
+    height: max-content;
+}
+h1{
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+table th:nth-child(2),table td:nth-child(2){
+  width: 130px;
+
+}
+
+#table-dialy {
+    width: 100%;
+    margin: 50px auto;
+    font-size: 11px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+table th:nth-child(3),table td:nth-child(3),
+    table th:nth-child(4),table td:nth-child(4),
+    table th:nth-child(5), table td:nth-child(5),
+    table th:nth-child(6),table td:nth-child(6),
+    table th:nth-child(7),table td:nth-child(7),
+    table th:nth-child(9),table td:nth-child(9),
+    table th:nth-child(10), table td:nth-child(10),
+    table th:nth-child(11),table td:nth-child(11),
+    table th:nth-child(12),table td:nth-child(12),
+    table th:nth-child(13),table td:nth-child(13),
+    table th:nth-child(14),table td:nth-child(14),
+    table th:nth-child(15), table td:nth-child(15),
+    table th:nth-child(16),table td:nth-child(16),
+    table th:nth-child(17),table td:nth-child(17) {
+    display: none;
+    }
+
+  form {
+  display: grid;
+  justify-content: start; 
+  align-items: baseline;     
+  justify-items: start;        
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  max-width: 100%;
+  }
+
+  input[type="datetime-local"],input[type="date"], select {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+    button {
+     justify-self: right;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #b82025;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    grid-column: span 2;
+    }
+
+} */
+
+/* ////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////// */
+
+/* @media screen and (max-width: 950px) and (min-width: 500px) {
+  body{
+    padding: 20px;
+    height: max-content;
+}
+h1{
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+table th:nth-child(2),table td:nth-child(2){
+  width: max-content;
+
+}
+
+#table-dialy {
+    width: 100%;
+    margin: 50px auto;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+
+    table th:nth-child(4),table td:nth-child(4),
+    table th:nth-child(6),table td:nth-child(6),
+    table th:nth-child(7),table td:nth-child(7),
+    table th:nth-child(9),table td:nth-child(9),
+    table th:nth-child(10), table td:nth-child(10),
+    table th:nth-child(11),table td:nth-child(11),
+    table th:nth-child(12),table td:nth-child(12),
+    table th:nth-child(13),table td:nth-child(13),
+    table th:nth-child(14),table td:nth-child(14),
+    table th:nth-child(15), table td:nth-child(15),
+    table th:nth-child(16),table td:nth-child(16),
+    table th:nth-child(17),table td:nth-child(17) {
+    display: none;
+    }
+
+  form {
+  display: grid;
+  justify-content: start; 
+  align-items: baseline; 
+  justify-items: start;      
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 100%;
+  }
+
+  input[type="datetime-local"],input[type="date"], select {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  select {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    grid-column: span 3;
+    }
+
+
+    button {
+     justify-self: right;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #b82025;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    grid-column: span 4;
+    }
+
+
+
+
+
+
+
+  } */

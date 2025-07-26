@@ -1,11 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>HESKI KONTOL SKALIIIIIIIII</h1>
-</body>
-</html>
+
+        <h1 id="main_title">MONITORING DASHBOARD</h1>
+        <div class="box-dashboard">
+            <h3>PUE</h3>
+            <canvas id="sunburstChart"></canvas>
+        </div>
+
+        <div class="box-dashboard">
+            <h3>PUE</h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+
+        <div class="box temp-box">
+            <div class="temp-item">
+                <div class="info"><strong>Trafo</strong><br>25°C<br><small>H: 60%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Genset</strong><br>26°C<br><small>H: 62%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Battery</strong><br>28°C<br><small>H: 58%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Transmisi</strong><br>30°C<br><small>H: 55%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>C.Room</strong><br>27°C<br><small>H: 59%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>RAN</strong><br>29°C<br><small>H: 57%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Core</strong><br>24°C<br><small>H: 63%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+        </div>
+
+
+        <div class="box-dashboard">
+            <h3>LOAD TTC</h3>
+            <canvas id="loadTTCChart"></canvas>
+        </div>
+
+        <div class="box-dashboard">
+            <h3>LOAD TTC</h3>
+            <canvas id="plnLineChart"></canvas>
+        </div>
+
+        <div class="box-dashboard" id="bbm_real">
+            <h3>BBM <img src="Gambar/Gas Station.png" alt="BBM Logo" class="bbm-logo"></h3>
+            <canvas id="bbmChart"></canvas>
+        </div>
+
+        <h1 id="avg_table_title">AVERAGE PUE</h1>
+        <div class="box-dashboard" id="table-dialy">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>kW LV1</th>
+                        <th>kVA LV1</th>
+                        <th>kW LV2</th>
+                        <th>kVA LV2</th>
+                        <th>Total kVA PLN</th>
+                        <th>Total Load PLN</th>
+                        <th>kW Rec1_2 UPS1</th>
+                        <th>kVA Rec1_2 UPS1</th>
+                        <th>kW Rec4 UPS2</th>
+                        <th>kVA Rec4 UPS2</th>
+                        <th>kW Rec3_5</th>
+                        <th>kVA Rec3_5</th>
+                        <th>kW Rec9_10_11_12</th>
+                        <th>kVA Rec9_10_11_12</th>
+                        <th>Total kVA IT Telco</th>
+                        <th>Total Load IT Telco</th>
+                        <th>PUE</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>

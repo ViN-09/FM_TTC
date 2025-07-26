@@ -5,15 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monitoring Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-pVfOUoS0w+DO1MzPt8WyODktqf8ZC5R6yR+1VYUpvg3mAXuSRBM1y1NClURzDBqBSziJ6fX78Of/9wbyI65Ctw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script
-        src="src/chartjs-plugin-datalabels-2.2.0/chartjs-plugin-datalabels-2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-7Yq7JGrFYWehZ++l0jx6q9Q7z9O6Z2aRQkG1t5z7xXfFtcS6U9U6mG1u68D71grM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512‑(hash terbaru dari cdnjs)" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/table-summary-profile.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/summary-profil.css" />
+    <link rel="stylesheet" href="css/display.css" />
+
     <title>Dashboard</title>
 </head>
 
@@ -23,23 +24,26 @@
         <img src="Gambar/Telkomsel Logo.png" alt="Telkomsel Logo" class="logo" />
     </header>
 
+    <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+    </div>
+    
     <div id="overlay" class="overlay"></div><!--Sidebar-->
-
     <div id="mySidebar" class="sidebar"></div>
-    <h1>MONITORING DASHBOARD</h1>
 
-    <div class="dashboard">
-        <div class="box">
+    <div class="dashboard" id="dashboard_main">
+        <h1 id="main_title">MONITORING DASHBOARD</h1>
+        <div class="box-dashboard">
             <h3>PUE</h3>
             <canvas id="sunburstChart"></canvas>
         </div>
 
-        <div class="box">
+        <div class="box-dashboard">
             <h3>PUE</h3>
             <canvas id="lineChart"></canvas>
         </div>
 
-        <div class="box temp-box">
+        <div class="box-dashboard temp-box">
             <div class="temp-item">
                 <div class="info"><strong>Trafo</strong><br>25°C<br><small>H: 60%</small></div><i
                     class="fas fa-thermometer-half"></i>
@@ -71,256 +75,511 @@
         </div>
 
 
-        <div class="box">
+        <div class="box-dashboard">
             <h3>LOAD TTC</h3>
             <canvas id="loadTTCChart"></canvas>
         </div>
 
-        <div class="box">
+        <div class="box-dashboard">
             <h3>LOAD TTC</h3>
             <canvas id="plnLineChart"></canvas>
         </div>
 
-        <div class="box" id="bbm_real">
+        <div class="box-dashboard" id="bbm_real">
             <h3>BBM <img src="Gambar/Gas Station.png" alt="BBM Logo" class="bbm-logo"></h3>
             <canvas id="bbmChart"></canvas>
+        </div>
+
+        <h1 id="avg_table_title">AVERAGE PUE</h1>
+        <div class="box-dashboard" id="table-dialy">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>kW LV1</th>
+                        <th>kVA LV1</th>
+                        <th>kW LV2</th>
+                        <th>kVA LV2</th>
+                        <th>Total kVA PLN</th>
+                        <th>Total Load PLN</th>
+                        <th>kW Rec1_2 UPS1</th>
+                        <th>kVA Rec1_2 UPS1</th>
+                        <th>kW Rec4 UPS2</th>
+                        <th>kVA Rec4 UPS2</th>
+                        <th>kW Rec3_5</th>
+                        <th>kVA Rec3_5</th>
+                        <th>kW Rec9_10_11_12</th>
+                        <th>kVA Rec9_10_11_12</th>
+                        <th>Total kVA IT Telco</th>
+                        <th>Total Load IT Telco</th>
+                        <th>PUE</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="dashboard" id="profile_main">
+        <div id="summary_profile">
+            <h1>SUMMARY PROFILE</h1>
+            <div id="container" class="container">
+                <div class="content">
+                    <h1>SUMMARRY PERIZINAN</h1>
+                    <div class="data-content" id="perijinan">
+                        <div class="box" id="CCTV">
+                            <h2>CCTV <i class="fa-solid fa-video"></i></h2>
+                            <a>BRAND CCTV : <strong id="merk">Loading...</strong></a>
+                            <a>JUMLAH UNIT : <strong id="jumlah">Loading...</strong></a>
+                            <a>INDOOR : <strong id="indoor">Loading...</strong></a>
+                            <a>OUTDOR : <strong id="outdoor">Loading...</strong></a>
+                            <a>TOTAL STORAGE : <strong id="recording_caps">Loading...</strong></a>
+                            <a>RECORDING DAYS : <strong id="record_duration">Loading...</strong></a>
+                        </div>
+                        <div class="box" id="ACCESSDOOR">
+                            <h2>ACCESSDOOR <i class="fa-solid fa-door-closed"></i></h2>
+                            <a>BRAND : <strong id="merk">HID</strong></a>
+                            <a>CARD READER TERPASANG : <strong id="indoor">10 UNIT</strong></a>
+                            <a>ACCESS CARD TERDAFTAR : <strong id="jumlah">16 CARD</strong></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <h1>POWER SYSTEM</h1>
+                    <div class="data-content" id="Power-System">
+                        <div class="box" id="UPS">
+                            <h2>UPS <i class="fa-solid fa-box"></i></h2>
+                            <a>SYSTEM <i class="fa-solid fa-gear"></i></a>
+                            <a>TOTAL NE : <strong id="total_ne_ups">..</strong></a>
+                            <a>TOTAL SYSTEM : <strong id="total_system_ups">..</strong></a>
+                            <a>TOTAL CAPACITY : <strong id="total_capacity_ups">..</strong></a>
+                            <a>TOTAL LOAD : <strong id="total_load_ups">..</strong></a>
+                            <a>TOTAL OCCUPANCY : <strong id="total_occupancy_ups">..</strong></a>
+                            <a>BATTERY <i class="fa-solid fa-car-battery"></i></a>
+                            <a>TOTAL BANK : <strong id="total_bank_ups">..</strong></a>
+                            <a>TOTAL KAPASITAS : <strong id="total_kapasitas_ups">..</strong></a>
+                            <a>AVG BACKUPTIME : <strong id="avg_backuptime_ups">..</strong></a>
+                            <a>NOTE<i class="fa-solid fa-door-closed"></i></a>
+                        </div>
+                        <div class="box" id="RECTIFIER">
+                            <h2>RECTIFIER <i class="fa-solid fa-server"></i></h2>
+                            <a>SYSTEM <i class="fa-solid fa-gear"></i></a>
+                            <a>TOTAL NE : <strong id="total_ne_rectifier">..</strong></a>
+                            <a>TOTAL SYSTEM : <strong id="total_system_rectifier">..</strong></a>
+                            <a>TOTAL CAPACITY : <strong id="total_capacity_rectifier">..</strong></a>
+                            <a>TOTAL LOAD : <strong id="total_load_rectifier">..</strong></a>
+                            <a>TOTAL OCCUPANCY : <strong id="total_occupancy_rectifier">..</strong></a>
+                            <a>BATTERY <i class="fa-solid fa-car-battery"></i></a>
+                            <a>TOTAL BANK : <strong id="total_bank_rectifier">..</strong></a>
+                            <a>TOTAL KAPASITAS : <strong id="total_kapasitas_rectifier">..</strong></a>
+                            <a>AVG BACKUPTIME : <strong id="avg_backuptime_rectifier">..</strong></a>
+                            <a>NOTE<i class="fa-solid fa-door-closed"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content" id="PLNGEN">
+                    <h1>POWER SYSTEM</h1>
+                    <div class="data-content" id="MAIN-POWER">
+                        <div class="box" id="PLN">
+                            <h2>PLN <i class="fa-solid fa-bolt"></i></h2>
+                            <a>CAPACITY : <strong id="capacity_pln"></strong></a>
+                            <a>LOAD : <strong id="load_pln"></strong></a>
+                            <a>OCCUPANCY : <strong id="occupancy_pln"></strong></a>
+                            <a>SUPLY : <strong id="suply_pln"></strong></a>
+                            <a>TAGIHAN LISTRIK : <strong id="tagihan_listrik_pln"></strong></a>
+                        </div>
+
+                        <div class="box" id="TRAFO">
+                            <h2>TRAFO <i class="fa-solid fa-box-archive"></i></h2>
+                            <a>JUMLAH : <strong id="jumlah_travo"></strong></a>
+                            <a>KAPASITAS TRAVO : <strong id="capacity_travo"></strong></a>
+                            <a>OCCUPANCY : <strong id="occupancy_travo"></strong></a>
+                        </div>
+
+                        <div class="box" id="GENSET">
+                            <h2>GENSET <i class="fa-solid fa-box"></i> <i class="fa-solid fa-bolt"></i></h2>
+                            <a>JUMLAH : <strong id="jumlah_genset"></strong></a>
+                            <ul id="remark-genset-list">NAMA :</ul>
+                            <ul id="load-genset-list">LOAD</ul>
+                            <a>LOAD TOTAL : <strong id="load_genset"></strong></a>
+                            <a>CAPACITY TOTAL : <strong id="kapasitas_genset"></strong></a>
+                            <a>OCCUPANCY : <strong id="occupancy_genset"></strong></a>
+                        </div>
+
+                        <div class="box" id="BBM">
+                            <h2>BBM <i class="fa-solid fa-gauge"></i></h2>
+                            <a>KAPASITAS BBM : <strong id="kapasitas_bbm">...</strong></a>
+                            <a>TOTAL BBM : <strong id="total_liter__bbm">...</strong></a>
+                            <a>OCCUPANCY : <strong id="occupancy_bbm">...</strong></a>
+                            <a>RUNNING ESTIMACY : <strong id="backup_time">...</strong></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content" id="CS">
+                    <h1>COOLING SYSTEM</h1>
+                    <div class="data-content" id="Cooling-System">
+                        <div class="box" id="PAC">
+                            <h2>PAC <i class="fa-solid fa-snowflake"></i></h2>
+                            <a></a>
+                            <a>UP FLOW : <strong id="up-flow_pac"></strong></a>
+                            <a>DOWN FLOW : <strong id="down-flow_pac"></strong></a>
+                            <!-- <ul id="up-flow-list"></ul>
+                            <ul id="down-flow-list"></ul> -->
+                            <a>INROW : <strong id="inrow_pac"></strong></a>
+                            <a>TOTAL PAC : <strong id="total-pac_pac"></strong></a>
+                            <a>TOTAL KAPASITAS : <strong id="total-kapasitas_pac"></strong></a>
+                            <a>TOTAL LOAD : <strong id="total-load_pac"></strong></a>
+                            <a>OCCUPANCY : <strong id="occupancy_pac"></strong></a>
+                            <a>NOTE</a>
+                            <a>SET POINT : <strong id="setpoint_pac"></strong></a>
+                            <a>AGE : <strong id="age_pac"></strong></a>
+
+                        </div>
+
+                        <div class="box" id="ACSPLIT">
+                            <h2>AC SPLIT <i class="fa-solid fa-wind"></i></h2>
+                            <a><strong id="up-flow">DAPOT TIDAK ADA</strong></a>
+                        </div>
+
+                        <div class="box" id="SPLIT-DUCT">
+                            <h2>SPLIT DUCT <i class="fa-solid fa-building"></i></h2>
+                            <a><strong id="merk">DAPOT TIDAK ADA</strong></a>
+                        </div>
+                        <div class="box" id="AC-PORTABLE">
+                            <h2>AC PORTABLE <i class="fa-solid fa-door-closed"></i></h2>
+                            <a> <strong id="merk">DAPOT TIDAK ADA</strong></a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content" id="BUILDING">
+                    <h1>SUMMARY BUILDING</h1>
+                    <div class="data-content" id="Luasan-Building">
+                        <div class="box" id="LUASAN">
+                            <h2>LUASAN <i class="fas fa-th-large"></i></h2>
+                            <div class="chart_luasan"><canvas id="chartSpace"></canvas></div>
+                            <div class="info_tambahan_luasan">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">TOTAL RUANGAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="jumlah_ruang_perangkat">..</td>
+                                            <td id="jumlah_ruang_common">..</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Perangkat</td>
+                                            <td>Common Area</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a>TOTAL LUAS BANGUNAN <strong id="total_luas_bangunan">DAPOT TIDAK ADA</strong></a>
+                            </div>
+                        </div>
+
+                        <div class="box" id="ISSUE-BUILDING">
+                            <h2>ISSUE <i class="fa-solid fa-building"></i></h2>
+                            <div class="table_base_issue_building">
+                                <table class="modern-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Issue</th>
+                                            <th>Analisa</th>
+                                            <th>Risk</th>
+                                            <th>Solution</th>
+                                            <th>Keterangan</th>
+                                            <th>Status</th>
+                                            <th>Profile Affected</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="issue-building-table-body">
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content" id="FSS">
+                    <h1>SUMMARY BUILDING</h1>
+                    <div class="data-content" id="Fire-Suspend">
+                        <div class="box" id="APAR">
+                            <h2>APAR <i class="fa-solid fa-fire-extinguisher"></i></h2>
+                            <a>BRAND <strong id="brand_apar">...</strong></a>
+                            <a>JENIS <strong id="jenis_apar">...</strong></a>
+                            <a>JUMLAH <strong id="jumlah_apar">...</strong></a>
+                            <a>STATUS <strong id="status_apar">...</strong></a>
+                        </div>
+                        <div class="box" id="FM200">
+                            <h2>FSS <i class="fa-solid fa-fire-burner"></i></h2>
+                            <a>BRAND <strong id="brand_fm200">...</strong></a>
+                            <a>FLOOR BACKUP <strong id="floor_backup_fm200">...</strong></a>
+                            <a>JUMLAH TABUNG <strong id="jumlah_tabung_fm200">...</strong></a>
+                            <a>NOTE <strong id="status_fm200">...</strong></a>
+                        </div>
+                        <div class="box" id="HYDRAND">
+                            <h2>HYDRAND <i class="fa-solid fa-water"></i></h2>
+                            <a><strong>DAPOT TIDAK ADA</strong></a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content" id="ISSUE">
+                    <h1>ISSUE TTC</h1>
+                    <div class="data-content" id="Issue-TTC">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Issue</th>
+                                    <th>Analisa</th>
+                                    <th>Risk</th>
+                                    <th>Solution</th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
+                                    <th>Profile Affected</th>
+                                </tr>
+                            </thead>
+                            <tbody id="issue-table-body">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 
-    <h1 style="margin-top: 20px;">AVERAGE PUE</h1>
-    <div class="box" id="table-dialy">
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Tanggal</th>
-                    <th>kW LV1</th>
-                    <th>kVA LV1</th>
-                    <th>kW LV2</th>
-                    <th>kVA LV2</th>
-                    <th>Total kVA PLN</th>
-                    <th>Total Load PLN</th>
-                    <th>kW Rec1_2 UPS1</th>
-                    <th>kVA Rec1_2 UPS1</th>
-                    <th>kW Rec4 UPS2</th>
-                    <th>kVA Rec4 UPS2</th>
-                    <th>kW Rec3_5</th>
-                    <th>kVA Rec3_5</th>
-                    <th>kW Rec9_10_11_12</th>
-                    <th>kVA Rec9_10_11_12</th>
-                    <th>Total kVA IT Telco</th>
-                    <th>Total Load IT Telco</th>
-                    <th>PUE</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kZ8cu+U8czVlgfAWFy9NV3mlBJWSnrqBbo0Z4mDAm5xkC6R+XxhXxQAf7XWazE6Q"
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Chart.js Plugin Datalabels -->
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script src="js/loder.js"></script>
+    <script src="js/sidebar.js"></script>
+
     <script>
-       // Jam untuk line chart
-const hours = [...Array(24).keys()].map(h => h.toString().padStart(2, '0') + ':00');
+        hideAll();
+        loading();
+        sidebar();
+        setTimeout(() => show('dashboard_main'), 500);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Jam untuk line chart
+        const hours = [...Array(24).keys()].map(h => h.toString().padStart(2, '0') + ':00');
 
-// Donat Chart PUE (Dummy Data)
-const ctx = document.getElementById('sunburstChart').getContext('2d');
-const centerTextPlugin = {
-    id: 'centerText',
-    beforeDraw(chart) {
-        const { width, height, ctx } = chart;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = "#00e676";
-        const text = `${chart.config.data.datasets[0].data[0]}`;
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-    }
-};
+        // Donat Chart PUE (Dummy Data)
+        const ctx = document.getElementById('sunburstChart').getContext('2d');
+        const centerTextPlugin = {
+            id: 'centerText',
+            beforeDraw(chart) {
+                const { width, height, ctx } = chart;
+                ctx.restore();
+                const fontSize = (height / 114).toFixed(2);
+                ctx.font = `${fontSize}em sans-serif`;
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "#00e676";
+                const text = `${chart.config.data.datasets[0].data[0]}`;
+                const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                const textY = height / 2;
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        };
 
-const pueChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Used', 'Remaining'],
-        datasets: [{
-            data: [1.5, 2.5], // Dummy PUE
-            backgroundColor: ['#00e676', '#e0e0e0']
-        }]
-    },
-    options: {
-        cutout: '70%',
-        plugins: {
-            tooltip: { enabled: false },
-            legend: { display: false }
-        }
-    },
-    plugins: [centerTextPlugin]
-});
+        const pueChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Used', 'Remaining'],
+                datasets: [{
+                    data: [1.5, 2.5], // Dummy PUE
+                    backgroundColor: ['#00e676', '#e0e0e0']
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    tooltip: { enabled: false },
+                    legend: { display: false }
+                }
+            },
+            plugins: [centerTextPlugin]
+        });
 
-// Line Chart PUE (Dummy)
-const ctx2 = document.getElementById('lineChart').getContext('2d');
-const chart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: hours,
-        datasets: [{
-            label: 'PUE',
-            data: hours.map(() => (1.4 + Math.random() * 0.5).toFixed(2)),
-            fill: true,
-            borderColor: '#2196f3',
-            backgroundColor: 'rgba(33, 150, 243, 0.2)',
-            tension: 0.3
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                min: 1,
-                max: 2.5,
-                ticks: {
-                    stepSize: 0.5,
-                    callback: function (value) {
-                        return [1, 1.5, 2, 2.5].includes(value) ? value : null;
+        // Line Chart PUE (Dummy)
+        const ctx2 = document.getElementById('lineChart').getContext('2d');
+        const chart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: hours,
+                datasets: [{
+                    label: 'PUE',
+                    data: hours.map(() => (1.4 + Math.random() * 0.5).toFixed(2)),
+                    fill: true,
+                    borderColor: '#2196f3',
+                    backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 1,
+                        max: 2.5,
+                        ticks: {
+                            stepSize: 0.5,
+                            callback: function (value) {
+                                return [1, 1.5, 2, 2.5].includes(value) ? value : null;
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-});
+        });
 
-// Line Chart Load (Dummy)
-const ctx4 = document.getElementById('plnLineChart').getContext('2d');
-const chartLOAD = new Chart(ctx4, {
-    type: 'line',
-    data: {
-        labels: hours,
-        datasets: [
-            { label: 'PLN', data: hours.map(() => Math.random() * 100), borderColor: 'blue', tension: 0.4 },
-            { label: 'Load Facility', data: hours.map(() => Math.random() * 80), borderColor: 'green', tension: 0.4 },
-            { label: 'IT & Telco', data: hours.map(() => Math.random() * 60), borderColor: 'red', tension: 0.4 }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        }
-    }
-});
-
-// Bar Chart BBM Dummy
-const ctx5 = document.getElementById('bbmChart').getContext('2d');
-const bbmChart = new Chart(ctx5, {
-    type: 'bar',
-    data: {
-        labels: ['Tank Harian G1', 'Tank Bulanan G1', 'Tank Harian G2', 'Tank Bulanan G2'],
-        datasets: [{
-            label: 'Occupancy (%)',
-            data: [70, 85, 60, 90],
-            backgroundColor: 'red'
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                min: 0,
-                max: 100,
-                ticks: { stepSize: 25 }
+        // Line Chart Load (Dummy)
+        const ctx4 = document.getElementById('plnLineChart').getContext('2d');
+        const chartLOAD = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: hours,
+                datasets: [
+                    { label: 'PLN', data: hours.map(() => Math.random() * 100), borderColor: 'blue', tension: 0.4 },
+                    { label: 'Load Facility', data: hours.map(() => Math.random() * 80), borderColor: 'green', tension: 0.4 },
+                    { label: 'IT & Telco', data: hours.map(() => Math.random() * 60), borderColor: 'red', tension: 0.4 }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                }
             }
-        }
-    }
-});
+        });
 
-// Bar Chart Load TTC (Dummy)
-const ctx3 = document.getElementById('loadTTCChart').getContext('2d');
-const loadTTCChart = new Chart(ctx3, {
-    type: 'bar',
-    data: {
-        labels: ['PLN', 'Load Facility', 'IT & Telco'],
-        datasets: [{
-            label: 'Load (KW)',
-            data: [120, 85, 70],
-            backgroundColor: ['blue', 'green', 'red']
-        }]
-    },
-    options: {
-        scales: {
-            y: { beginAtZero: true }
-        },
-        plugins: {
-            legend: { display: false },
-            datalabels: {
-                color: 'white',
-                anchor: 'center',
-                align: 'center',
-                font: { weight: 'bold', size: 14 },
-                formatter: value => value
+        // Bar Chart BBM Dummy
+        const ctx5 = document.getElementById('bbmChart').getContext('2d');
+        const bbmChart = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['Tank Harian G1', 'Tank Bulanan G1', 'Tank Harian G2', 'Tank Bulanan G2'],
+                datasets: [{
+                    label: 'Occupancy (%)',
+                    data: [70, 85, 60, 90],
+                    backgroundColor: 'red'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 100,
+                        ticks: { stepSize: 25 }
+                    }
+                }
             }
-        }
-    },
-    plugins: [ChartDataLabels]
-});
+        });
 
-// Dummy Suhu
-const suhuData = {
-    'Trafo': { temp: 35.2, hum: 65 },
-    'Genset': { temp: 37.5, hum: 60 },
-    'Battery': { temp: 34.0, hum: 68 },
-    'Transmisi': { temp: 36.1, hum: 63 },
-    'C.Room': { temp: 24.7, hum: 55 },
-    'RAN': { temp: 33.8, hum: 61 },
-    'Core': { temp: 25.5, hum: 57 }
-};
+        // Bar Chart Load TTC (Dummy)
+        const ctx3 = document.getElementById('loadTTCChart').getContext('2d');
+        const loadTTCChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['PLN', 'Load Facility', 'IT & Telco'],
+                datasets: [{
+                    label: 'Load (KW)',
+                    data: [120, 85, 70],
+                    backgroundColor: ['blue', 'green', 'red']
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        color: 'white',
+                        anchor: 'center',
+                        align: 'center',
+                        font: { weight: 'bold', size: 14 },
+                        formatter: value => value
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
 
-document.querySelectorAll('.temp-item .info').forEach(info => {
-    const label = info.querySelector('strong').innerText.replace('\n', ' ').trim();
-    if (suhuData[label]) {
-        info.innerHTML = `<strong>${label.replace(' ', '<br>')}</strong><br>${suhuData[label].temp.toFixed(1)}°C<br><small>H: ${suhuData[label].hum.toFixed(0)}%</small>`;
-    }
-});
+        // Dummy Suhu
+        const suhuData = {
+            'Trafo': { temp: 35.2, hum: 65 },
+            'Genset': { temp: 37.5, hum: 60 },
+            'Battery': { temp: 34.0, hum: 68 },
+            'Transmisi': { temp: 36.1, hum: 63 },
+            'C.Room': { temp: 24.7, hum: 55 },
+            'RAN': { temp: 33.8, hum: 61 },
+            'Core': { temp: 25.5, hum: 57 }
+        };
 
-// Dummy Table 7 Hari
-const dummyTableData = Array.from({ length: 7 }, (_, i) => ({
-    date: `2025-07-${19 + i}`,
-    kw_lv1: Math.random() * 100,
-    kva_lv1: Math.random() * 100,
-    kw_lv2: Math.random() * 100,
-    kva_lv2: Math.random() * 100,
-    total_kva_pln: Math.random() * 200,
-    total_load_pln: Math.random() * 180,
-    kw_rec1_2_ups1: Math.random() * 50,
-    kva_rec1_2_ups1: Math.random() * 55,
-    kw_rec4_ups2: Math.random() * 45,
-    kv_rec4_ups2: Math.random() * 50,
-    kw_rec3_5: Math.random() * 60,
-    kva_rec3_5: Math.random() * 65,
-    kw_rec9_10_11_12: Math.random() * 75,
-    kva_rec9_10_11_12: Math.random() * 80,
-    total_kva_it_telco: Math.random() * 90,
-    total_load_it_telco: Math.random() * 85,
-    pue: 1.3 + Math.random() * 0.5
-}));
+        document.querySelectorAll('.temp-item .info').forEach(info => {
+            const label = info.querySelector('strong').innerText.replace('\n', ' ').trim();
+            if (suhuData[label]) {
+                info.innerHTML = `<strong>${label.replace(' ', '<br>')}</strong><br>${suhuData[label].temp.toFixed(1)}°C<br><small>H: ${suhuData[label].hum.toFixed(0)}%</small>`;
+            }
+        });
 
-const tbody = document.querySelector('#table-dialy tbody');
-tbody.innerHTML = '';
-dummyTableData.forEach((item, index) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
+        // Dummy Table 7 Hari
+        const dummyTableData = Array.from({ length: 7 }, (_, i) => ({
+            date: `2025-07-${19 + i}`,
+            kw_lv1: Math.random() * 100,
+            kva_lv1: Math.random() * 100,
+            kw_lv2: Math.random() * 100,
+            kva_lv2: Math.random() * 100,
+            total_kva_pln: Math.random() * 200,
+            total_load_pln: Math.random() * 180,
+            kw_rec1_2_ups1: Math.random() * 50,
+            kva_rec1_2_ups1: Math.random() * 55,
+            kw_rec4_ups2: Math.random() * 45,
+            kv_rec4_ups2: Math.random() * 50,
+            kw_rec3_5: Math.random() * 60,
+            kva_rec3_5: Math.random() * 65,
+            kw_rec9_10_11_12: Math.random() * 75,
+            kva_rec9_10_11_12: Math.random() * 80,
+            total_kva_it_telco: Math.random() * 90,
+            total_load_it_telco: Math.random() * 85,
+            pue: 1.3 + Math.random() * 0.5
+        }));
+
+        const tbody = document.querySelector('#table-dialy tbody');
+        tbody.innerHTML = '';
+        dummyTableData.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
         <td>${index + 1}</td>
         <td>${item.date}</td>
         <td>${item.kw_lv1.toFixed(2)}</td>
@@ -341,12 +600,11 @@ dummyTableData.forEach((item, index) => {
         <td>${item.total_load_it_telco.toFixed(2)}</td>
         <td>${item.pue.toFixed(3)}</td>
     `;
-    tbody.appendChild(row);
-});
+            tbody.appendChild(row);
+        });
 
         //
     </script>
-    <script src="js/sidebar.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monitoring Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pVfOUoS0w+DO1MzPt8WyODktqf8ZC5R6yR+1VYUpvg3mAXuSRBM1y1NClURzDBqBSziJ6fX78Of/9wbyI65Ctw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script
+        src="src/chartjs-plugin-datalabels-2.2.0/chartjs-plugin-datalabels-2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-7Yq7JGrFYWehZ++l0jx6q9Q7z9O6Z2aRQkG1t5z7xXfFtcS6U9U6mG1u68D71grM" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <div class="menu-button"><i class="fas fa-bars" id="openSidebar"></i></div>
+        <img src="Gambar/Telkomsel Logo.png" alt="Telkomsel Logo" class="logo" />
+    </header>
+
+    <div id="overlay" class="overlay"></div><!--Sidebar-->
+
+    <div id="mySidebar" class="sidebar"></div>
+    <h1>MONITORING DASHBOARD</h1>
+
+    <div class="dashboard">
+        <div class="box">
+            <h3>PUE</h3>
+            <canvas id="sunburstChart"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>PUE</h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+
+        <div class="box temp-box">
+            <div class="temp-item">
+                <div class="info"><strong>Trafo</strong><br>25°C<br><small>H: 60%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Genset</strong><br>26°C<br><small>H: 62%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Battery</strong><br>28°C<br><small>H: 58%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Transmisi</strong><br>30°C<br><small>H: 55%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>C.Room</strong><br>27°C<br><small>H: 59%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>RAN</strong><br>29°C<br><small>H: 57%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="temp-item">
+                <div class="info"><strong>Core</strong><br>24°C<br><small>H: 63%</small></div><i
+                    class="fas fa-thermometer-half"></i>
+            </div>
+        </div>
+
+
+        <div class="box">
+            <h3>LOAD TTC</h3>
+            <canvas id="loadTTCChart"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>LOAD TTC</h3>
+            <canvas id="plnLineChart"></canvas>
+        </div>
+
+        <div class="box" id="bbm_real">
+            <h3>BBM <img src="Gambar/Gas Station.png" alt="BBM Logo" class="bbm-logo"></h3>
+            <canvas id="bbmChart"></canvas>
+        </div>
+    </div>
+
+
+    <h1 style="margin-top: 20px;">AVERAGE PUE</h1>
+    <div class="box" id="table-dialy">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>kW LV1</th>
+                    <th>kVA LV1</th>
+                    <th>kW LV2</th>
+                    <th>kVA LV2</th>
+                    <th>Total kVA PLN</th>
+                    <th>Total Load PLN</th>
+                    <th>kW Rec1_2 UPS1</th>
+                    <th>kVA Rec1_2 UPS1</th>
+                    <th>kW Rec4 UPS2</th>
+                    <th>kVA Rec4 UPS2</th>
+                    <th>kW Rec3_5</th>
+                    <th>kVA Rec3_5</th>
+                    <th>kW Rec9_10_11_12</th>
+                    <th>kVA Rec9_10_11_12</th>
+                    <th>Total kVA IT Telco</th>
+                    <th>Total Load IT Telco</th>
+                    <th>PUE</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kZ8cu+U8czVlgfAWFy9NV3mlBJWSnrqBbo0Z4mDAm5xkC6R+XxhXxQAf7XWazE6Q"
+        crossorigin="anonymous"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart.js Plugin Datalabels -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script>
+       // Jam untuk line chart
+const hours = [...Array(24).keys()].map(h => h.toString().padStart(2, '0') + ':00');
+
+// Donat Chart PUE (Dummy Data)
+const ctx = document.getElementById('sunburstChart').getContext('2d');
+const centerTextPlugin = {
+    id: 'centerText',
+    beforeDraw(chart) {
+        const { width, height, ctx } = chart;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#00e676";
+        const text = `${chart.config.data.datasets[0].data[0]}`;
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+    }
+};
+
+const pueChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Used', 'Remaining'],
+        datasets: [{
+            data: [1.5, 2.5], // Dummy PUE
+            backgroundColor: ['#00e676', '#e0e0e0']
+        }]
+    },
+    options: {
+        cutout: '70%',
+        plugins: {
+            tooltip: { enabled: false },
+            legend: { display: false }
+        }
+    },
+    plugins: [centerTextPlugin]
+});
+
+// Line Chart PUE (Dummy)
+const ctx2 = document.getElementById('lineChart').getContext('2d');
+const chart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: hours,
+        datasets: [{
+            label: 'PUE',
+            data: hours.map(() => (1.4 + Math.random() * 0.5).toFixed(2)),
+            fill: true,
+            borderColor: '#2196f3',
+            backgroundColor: 'rgba(33, 150, 243, 0.2)',
+            tension: 0.3
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                min: 1,
+                max: 2.5,
+                ticks: {
+                    stepSize: 0.5,
+                    callback: function (value) {
+                        return [1, 1.5, 2, 2.5].includes(value) ? value : null;
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Line Chart Load (Dummy)
+const ctx4 = document.getElementById('plnLineChart').getContext('2d');
+const chartLOAD = new Chart(ctx4, {
+    type: 'line',
+    data: {
+        labels: hours,
+        datasets: [
+            { label: 'PLN', data: hours.map(() => Math.random() * 100), borderColor: 'blue', tension: 0.4 },
+            { label: 'Load Facility', data: hours.map(() => Math.random() * 80), borderColor: 'green', tension: 0.4 },
+            { label: 'IT & Telco', data: hours.map(() => Math.random() * 60), borderColor: 'red', tension: 0.4 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+
+// Bar Chart BBM Dummy
+const ctx5 = document.getElementById('bbmChart').getContext('2d');
+const bbmChart = new Chart(ctx5, {
+    type: 'bar',
+    data: {
+        labels: ['Tank Harian G1', 'Tank Bulanan G1', 'Tank Harian G2', 'Tank Bulanan G2'],
+        datasets: [{
+            label: 'Occupancy (%)',
+            data: [70, 85, 60, 90],
+            backgroundColor: 'red'
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+                max: 100,
+                ticks: { stepSize: 25 }
+            }
+        }
+    }
+});
+
+// Bar Chart Load TTC (Dummy)
+const ctx3 = document.getElementById('loadTTCChart').getContext('2d');
+const loadTTCChart = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: ['PLN', 'Load Facility', 'IT & Telco'],
+        datasets: [{
+            label: 'Load (KW)',
+            data: [120, 85, 70],
+            backgroundColor: ['blue', 'green', 'red']
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false },
+            datalabels: {
+                color: 'white',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold', size: 14 },
+                formatter: value => value
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
+// Dummy Suhu
+const suhuData = {
+    'Trafo': { temp: 35.2, hum: 65 },
+    'Genset': { temp: 37.5, hum: 60 },
+    'Battery': { temp: 34.0, hum: 68 },
+    'Transmisi': { temp: 36.1, hum: 63 },
+    'C.Room': { temp: 24.7, hum: 55 },
+    'RAN': { temp: 33.8, hum: 61 },
+    'Core': { temp: 25.5, hum: 57 }
+};
+
+document.querySelectorAll('.temp-item .info').forEach(info => {
+    const label = info.querySelector('strong').innerText.replace('\n', ' ').trim();
+    if (suhuData[label]) {
+        info.innerHTML = `<strong>${label.replace(' ', '<br>')}</strong><br>${suhuData[label].temp.toFixed(1)}°C<br><small>H: ${suhuData[label].hum.toFixed(0)}%</small>`;
+    }
+});
+
+// Dummy Table 7 Hari
+const dummyTableData = Array.from({ length: 7 }, (_, i) => ({
+    date: `2025-07-${19 + i}`,
+    kw_lv1: Math.random() * 100,
+    kva_lv1: Math.random() * 100,
+    kw_lv2: Math.random() * 100,
+    kva_lv2: Math.random() * 100,
+    total_kva_pln: Math.random() * 200,
+    total_load_pln: Math.random() * 180,
+    kw_rec1_2_ups1: Math.random() * 50,
+    kva_rec1_2_ups1: Math.random() * 55,
+    kw_rec4_ups2: Math.random() * 45,
+    kv_rec4_ups2: Math.random() * 50,
+    kw_rec3_5: Math.random() * 60,
+    kva_rec3_5: Math.random() * 65,
+    kw_rec9_10_11_12: Math.random() * 75,
+    kva_rec9_10_11_12: Math.random() * 80,
+    total_kva_it_telco: Math.random() * 90,
+    total_load_it_telco: Math.random() * 85,
+    pue: 1.3 + Math.random() * 0.5
+}));
+
+const tbody = document.querySelector('#table-dialy tbody');
+tbody.innerHTML = '';
+dummyTableData.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${item.date}</td>
+        <td>${item.kw_lv1.toFixed(2)}</td>
+        <td>${item.kva_lv1.toFixed(2)}</td>
+        <td>${item.kw_lv2.toFixed(2)}</td>
+        <td>${item.kva_lv2.toFixed(2)}</td>
+        <td>${item.total_kva_pln.toFixed(2)}</td>
+        <td>${item.total_load_pln.toFixed(2)}</td>
+        <td>${item.kw_rec1_2_ups1.toFixed(2)}</td>
+        <td>${item.kva_rec1_2_ups1.toFixed(2)}</td>
+        <td>${item.kw_rec4_ups2.toFixed(2)}</td>
+        <td>${item.kv_rec4_ups2.toFixed(2)}</td>
+        <td>${item.kw_rec3_5.toFixed(2)}</td>
+        <td>${item.kva_rec3_5.toFixed(2)}</td>
+        <td>${item.kw_rec9_10_11_12.toFixed(2)}</td>
+        <td>${item.kva_rec9_10_11_12.toFixed(2)}</td>
+        <td>${item.total_kva_it_telco.toFixed(2)}</td>
+        <td>${item.total_load_it_telco.toFixed(2)}</td>
+        <td>${item.pue.toFixed(3)}</td>
+    `;
+    tbody.appendChild(row);
+});
+
+        //
+    </script>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

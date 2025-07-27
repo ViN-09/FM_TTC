@@ -115,26 +115,32 @@
       margin-left: 10px;
     }
 
-    table {
+    #table-harian {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       margin-top: 20px;
-      font-size: 10px;
+      font-size: 9px;
     }
 
-    table,
+    #table-harian,
     th,
     td {
       border: 1px solid #ccc;
     }
 
-    th,
-    td {
-      padding: 0px;
+    #table-harian th,
+    #table-harian td {
+      width: auto;
       text-align: center;
+      /* opsional */
+      border: 1px solid #ccc;
+      padding: 1px;
+      word-wrap: break-word;
+      /* biar isi panjang bisa turun baris */
     }
 
-    th {
+    #table-harian th {
       background-color: #f2f2f2;
     }
 
@@ -155,7 +161,7 @@
 
 
 
-/* ////////////////////////////// */
+    /* ////////////////////////////// */
 
     .loader {
       position: fixed;
@@ -206,7 +212,64 @@
     /* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
     @media screen and (max-width: 500px) {
-  
+      .dashboard {
+        padding-top: 25px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      #avg_table_title {
+        grid-column: span 1;
+
+      }
+
+      #main_title {
+        grid-column: span 1;
+      }
+
+      #table-dialy {
+
+        grid-column: span 1;
+        
+      }
+      
+      #table-dialy th,#table-dialy td {
+
+      font-size: 10px;
+      padding: 5px;
+    }
+        
+
+      .box-dashboard {
+        width: 100%;
+      }
+
+      .temp-box {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #lineChart, #bbmChart, #plnLineChart {
+      height: 250px !important;
+    }
+
+
+      #table-dialy th:nth-child(3),
+      #table-dialy td:nth-child(3),
+      #table-dialy th:nth-child(4),
+      #table-dialy td:nth-child(4),
+      #table-dialy th:nth-child(6),
+      #table-dialy td:nth-child(6),
+      #table-dialy th:nth-child(7),
+      #table-dialy td:nth-child(7),
+      #table-dialy th:nth-child(8),
+      #table-dialy td:nth-child(8),
+      #table-dialy th:nth-child(9),
+      #table-dialy td:nth-child(9),
+      #table-dialy th:nth-child(10),
+      #table-dialy td:nth-child(10) {
+        display: none;
+      }
+
     }
 
 
@@ -220,7 +283,4 @@
     /* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
 
-    @media screen and (max-width: 950px) and (min-width: 500px) {
-     
-
-    }
+    @media screen and (max-width: 950px) and (min-width: 500px) {}

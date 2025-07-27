@@ -92,25 +92,18 @@
 
         <h1 id="avg_table_title">AVERAGE PUE</h1>
         <div class="box-dashboard" id="table-dialy">
-            <table>
+            <table id="table-harian">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Tanggal</th>
                         <th>kW LV1</th>
-                        <th>kVA LV1</th>
                         <th>kW LV2</th>
-                        <th>kVA LV2</th>
-                        <th>Total kVA PLN</th>
                         <th>Total Load PLN</th>
                         <th>kW Rec1_2 UPS1</th>
-                        <th>kVA Rec1_2 UPS1</th>
                         <th>kW Rec4 UPS2</th>
-                        <th>kVA Rec4 UPS2</th>
                         <th>kW Rec3_5</th>
-                        <th>kVA Rec3_5</th>
                         <th>kW Rec9_10_11_12</th>
-                        <th>kVA Rec9_10_11_12</th>
                         <th>Total kVA IT Telco</th>
                         <th>Total Load IT Telco</th>
                         <th>PUE</th>
@@ -583,19 +576,12 @@
         <td>${index + 1}</td>
         <td>${item.date}</td>
         <td>${item.kw_lv1.toFixed(2)}</td>
-        <td>${item.kva_lv1.toFixed(2)}</td>
         <td>${item.kw_lv2.toFixed(2)}</td>
-        <td>${item.kva_lv2.toFixed(2)}</td>
-        <td>${item.total_kva_pln.toFixed(2)}</td>
         <td>${item.total_load_pln.toFixed(2)}</td>
         <td>${item.kw_rec1_2_ups1.toFixed(2)}</td>
-        <td>${item.kva_rec1_2_ups1.toFixed(2)}</td>
         <td>${item.kw_rec4_ups2.toFixed(2)}</td>
-        <td>${item.kv_rec4_ups2.toFixed(2)}</td>
         <td>${item.kw_rec3_5.toFixed(2)}</td>
-        <td>${item.kva_rec3_5.toFixed(2)}</td>
         <td>${item.kw_rec9_10_11_12.toFixed(2)}</td>
-        <td>${item.kva_rec9_10_11_12.toFixed(2)}</td>
         <td>${item.total_kva_it_telco.toFixed(2)}</td>
         <td>${item.total_load_it_telco.toFixed(2)}</td>
         <td>${item.pue.toFixed(3)}</td>
